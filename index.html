@@ -48,10 +48,21 @@
                     return fScale(i);
                 }
             }).on("mouseover", function(d){
-              
-	           d3.select(this).attr({
+              d3.select(this).attr({
 		          fill: "lightgreen"
 	           })
+               console.log(d3.select(this));
+               var coordinates = d3.mouse(this);
+               var xPos = coordinates[0]+10;
+               var yPos = coordinates[1]+10;
+               var tooltip = d3.select("#tooltip").style({
+                left: xPos+"px",
+                top: yPos+"px"
+               });
+               d3.select("#city").text("縣市:");
+               d3.select("#industry").text(d.properties.C_Name);
+	       //替換tooltip內容(選擇其id後,修改內容)
+               d3.select("#tooltip").classed("hidden",false);
             }).on("mouseout", function(d){
                 d3.selectAll("path").attr({
 		          fill: function(d,i){
@@ -59,17 +70,6 @@
                   }
 	           })
                d3.select("#tooltip").classed("hidden",true);
-            }).on("click", function(d){
-               var xPos = parseFloat(d3.select(this).attr("cx"))+12;
-               var yPos = parseFloat(d3.select(this).attr("cy"))+12;
-               var tooltip = d3.select("#tooltip").style({
-                left: xPos+"px",
-                top: yPos+"px"
-               });
-               d3.select("#city").text("縣市:");
-               d3.select("#industry").text(d.properties.C_Name);
-               //替換tooltip內容(選擇其id後,修改內容)
-               d3.select("#tooltip").classed("hidden",false);
             });
 
         }
